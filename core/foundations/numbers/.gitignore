@@ -1,0 +1,8 @@
+numbers_recursive_tests
+numbers_iterative_tests
+*.o
+*.a
+*.so
+*.c
+*.h
+*.vapi
