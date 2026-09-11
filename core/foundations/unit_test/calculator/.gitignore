@@ -1,0 +1,8 @@
+calculator_test
+calculator_test.exe
+*.o
+*.a
+*.so
+*.c
+*.h
+*.vapi
