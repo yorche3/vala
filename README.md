@@ -9,6 +9,7 @@ Proyectos en **Vala**, con programas independientes compilados mediante `valac` 
 | Módulo | Descripción |
 | ------ | ----------- |
 | [`core/foundations/`](core/foundations/) | **Fase 0 — Fundamentos**: `helloworld`, `hellouser`, `unit_test/calculator`, `numbers` |
+| [`core/algorithms/`](core/algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort` |
 
 ---
 
@@ -40,6 +41,11 @@ valac src/numbers.vala test/recursive_tests.vala --pkg glib-2.0 -o /tmp/vala-num
 /tmp/vala-numbers-recursive-tests
 valac src/numbers.vala test/iterative_tests.vala --pkg glib-2.0 -o /tmp/vala-numbers-iterative-tests
 /tmp/vala-numbers-iterative-tests
+
+# Naive Sort tests
+cd ../../algorithms/naive_sort
+valac src/naive_sort.vala test/naive_sort_tests.vala --pkg glib-2.0 -o /tmp/vala-naive-sort-tests
+/tmp/vala-naive-sort-tests
 ```
 
 ---

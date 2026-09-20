@@ -1,0 +1,7 @@
+naive_sort_tests
+*.o
+*.a
+*.so
+*.c
+*.h
+*.vapi
