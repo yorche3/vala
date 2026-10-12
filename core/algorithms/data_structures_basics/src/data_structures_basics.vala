@@ -45,15 +45,15 @@ namespace DataStructuresBasics {
          * un esqueleto.
          */
         public int value {
-            get { return -1; }
+            get { return _value; }
         }
 
         /**
          * Esqueleto: enlace a la celda siguiente, o null cuando no hay ninguna.
          */
         public Node? next {
-            get { return null; }
-            set { }
+            get { return _next; }
+            set { _next = value; }
         }
 
         /**
@@ -90,25 +90,40 @@ namespace DataStructuresBasics {
          * Esqueleto: valor de la cabeza, o -1 cuando la lista está vacía. No muta.
          */
         public int head {
-            get { return -1; }
+            get { return _head != null ? _head.value : -1; }
         }
 
         /** Esqueleto: true solo si no hay nodos. */
         public bool is_empty {
-            get { return false; }
+            get { return _head == null; }
         }
 
         /** Esqueleto: número de nodos (el centinela es -1 mientras sea esqueleto). */
         public int size {
-            get { return -1; }
+            get { return _count; }
         }
 
         /** Esqueleto: inserta al principio. O(1). Sin resultado de fallo. */
         public void insert_head(int value) {
+            Node new_head = new Node(value);
+            new_head.next = _head;
+            _head = new_head;
+            if (_tail == null) {
+                _tail = new_head;
+            }
+            _count++;
         }
 
         /** Esqueleto: inserta al final. O(1). Sin resultado de fallo. */
         public void insert_tail(int value) {
+            Node new_tail = new Node(value);
+            if (_tail != null) {
+                _tail.next = new_tail;
+            } else {
+                _head = new_tail;
+            }
+            _tail = new_tail;
+            _count++;
         }
 
         /**
@@ -116,6 +131,24 @@ namespace DataStructuresBasics {
          * O(n).
          */
         public bool delete(int value) {
+            Node? previous = null;
+            Node? current = _head;
+            while (current != null) {
+                if (current.value == value) {
+                    if (previous != null) {
+                        previous.next = current.next;
+                    } else {
+                        _head = current.next;
+                    }
+                    if (_tail == current) {
+                        _tail = previous;
+                    }
+                    _count--;
+                    return true;
+                }
+                previous = current;
+                current = current.next;
+            }
             return false;
         }
     }
@@ -140,25 +173,35 @@ namespace DataStructuresBasics {
 
         /** Esqueleto: true solo si no hay nodos. */
         public bool is_empty {
-            get { return false; }
+            get { return _top == null; }
         }
 
         /** Esqueleto: número de nodos (el centinela es -1 mientras sea esqueleto). */
         public int size {
-            get { return -1; }
+            get { return _count; }
         }
 
         /** Esqueleto: valor de la cima, o -1 cuando está vacía. No muta. */
         public int peek {
-            get { return -1; }
+            get { return _top != null ? _top.value : -1; }
         }
 
         /** Esqueleto: apila sobre la cima. O(1). Sin resultado de fallo. */
         public void push(int value) {
+            Node new_top = new Node(value);
+            new_top.next = _top;
+            _top = new_top;
+            _count++;
         }
 
         /** Esqueleto: desapila el valor de la cima, o -1 cuando está vacía. O(1). */
         public int pop() {
+            if (_top != null) {
+                int value = _top.value;
+                _top = _top.next;
+                _count--;
+                return value;
+            }
             return -1;
         }
     }
@@ -185,27 +228,44 @@ namespace DataStructuresBasics {
 
         /** Esqueleto: true solo si no hay nodos. */
         public bool is_empty {
-            get { return false; }
+            get { return _front == null; }
         }
 
         /** Esqueleto: número de nodos (el centinela es -1 mientras sea esqueleto). */
         public int size {
-            get { return -1; }
+            get { return _count; }
         }
 
         /** Esqueleto: valor del frente, o -1 cuando está vacía. No muta. */
         public int peek {
-            get { return -1; }
+            get { return _front != null ? _front.value : -1; }
         }
 
         /** Esqueleto: encola por el final. O(1). Sin resultado de fallo. */
         public void enqueue(int value) {
+            Node new_rear = new Node(value);
+            if (_rear != null) {
+                _rear.next = new_rear;
+            } else {
+                _front = new_rear;
+            }
+            _rear = new_rear;
+            _count++;
         }
 
         /**
          * Esqueleto: desencola el valor del frente, o -1 cuando está vacía. O(1).
          */
         public int dequeue() {
+            if (_front != null) {
+                int value = _front.value;
+                _front = _front.next;
+                if (_front == null) {
+                    _rear = null;
+                }
+                _count--;
+                return value;
+            }
             return -1;
         }
     }
