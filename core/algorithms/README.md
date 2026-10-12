@@ -11,6 +11,7 @@ Los módulos de esta fase trabajan sobre **arrays mutables** (`int[]`), que se o
 | Módulo | Especificación | Enfoque | Tests | Estado |
 |--------|---------------|---------|:-----:|:------:|
 | [`naive_sort/`](naive_sort/) | [05_Naive_Sort](https://yorche3.github.io/programming_languages/core/algorithms/05_Naive_Sort/) | `valac` + GLib.Test | 21 | ✅ |
+| [`data_structures_basics/`](data_structures_basics/) | [06_Data_Structures_Basics](https://yorche3.github.io/programming_languages/core/algorithms/06_Data_Structures_Basics/) | `valac` + GLib.Test | 4 | ✅ |
 
 ---
 
@@ -18,12 +19,22 @@ Los módulos de esta fase trabajan sobre **arrays mutables** (`int[]`), que se o
 
 ```text
 algorithms/
-└── naive_sort/                      # 05_Naive_Sort
-    ├── .gitignore                   # binario de pruebas y archivos generados por valac
+├── naive_sort/                      # 05_Naive_Sort
+│   ├── .gitignore                   # binario de pruebas y archivos generados por valac
+│   ├── src/
+│   │   └── naive_sort.vala          # namespace NaiveSort: 3 funciones
+│   ├── test/
+│   │   └── naive_sort_tests.vala    # 3 tests × 7 casos
+│   └── README.md
+└── data_structures_basics/          # 06_Data_Structures_Basics
+    ├── .gitignore                   # binario de pruebas y artefactos generados
+    ├── meson.build                  # configuración opcional de Meson
     ├── src/
-    │   └── naive_sort.vala          # namespace NaiveSort: 3 funciones
+    │   ├── meson.build
+    │   └── data_structures_basics.vala # namespace DataStructuresBasics: Node, LinkedList, Stack, Queue
     ├── test/
-    │   └── naive_sort_tests.vala    # 3 tests × 7 casos
+    │   ├── meson.build
+    │   └── data_structures_basics_test.vala # 4 suites con runners para cada estructura
     └── README.md
 ```
 
@@ -58,6 +69,11 @@ algorithms/
 cd naive_sort
 valac src/naive_sort.vala test/naive_sort_tests.vala --pkg glib-2.0 -o /tmp/vala-naive-sort-tests
 /tmp/vala-naive-sort-tests
+
+# Data Structures Basics Tests
+cd ../data_structures_basics
+valac --pkg glib-2.0 --pkg gobject-2.0 src/data_structures_basics.vala test/data_structures_basics_test.vala -o /tmp/vala-data-structures-basics-tests -X -w
+/tmp/vala-data-structures-basics-tests
 ```
 
 ---
