@@ -8,13 +8,13 @@ Implementación de la especificación [01_Hello_World](https://yorche3.github.io
 
 | Archivo | Propósito |
 |---------|-----------|
-| [`helloworld.vala`](helloworld.vala) | Código fuente: define `HelloWorld` e imprime un saludo en la salida estándar. |
+| [`hello_world.vala`](hello_world.vala) | Código fuente: define `HelloWorld` e imprime un saludo en la salida estándar. |
 
 **Estructura de directorios esperada:**
 
 ```text
 helloworld/
-├── helloworld.vala  # Código fuente
+├── hello_world.vala  # Código fuente
 └── README.md        # Este archivo
 ```
 
@@ -34,7 +34,7 @@ helloworld/
    mkdir -p vala/core/foundations/helloworld
    ```
 
-2. Escribir el archivo `helloworld.vala` con el código fuente.
+2. Escribir el archivo `hello_world.vala` con el código fuente.
 
 3. Compilarlo con `valac` y ejecutar el binario generado.
 
@@ -87,14 +87,14 @@ Vala 0.56.16
 
 ```bash
 cd vala/core/foundations/helloworld
-valac helloworld.vala -o helloworld
+valac hello_world.vala -o helloworld
 ./helloworld
 ```
 
 Para evitar crear el binario dentro del proyecto:
 
 ```bash
-valac helloworld.vala -o /tmp/vala-helloworld
+valac hello_world.vala -o /tmp/vala-helloworld
 /tmp/vala-helloworld
 ```
 
