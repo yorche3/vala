@@ -25,9 +25,8 @@ private void expect_linked_value(string case_name, string subject, DataStructure
     expect_int(case_name, subject + ".value", actual.value, expected);
 }
 
-private void expect_neighbours(string case_name, string subject, int[]? actual, int[] expected) {
+private void expect_neighbours(string case_name, string subject, int[] actual, int[] expected) {
     Test.message("%s should equal %d neighbours in %s", subject, expected.length, case_name);
-    assert(actual != null);
     assert(actual.length == expected.length);
     for (int i = 0; i < expected.length; i++) {
         Test.message("%s should have %d at position %d in %s", subject, expected[i], i, case_name);
@@ -35,9 +34,18 @@ private void expect_neighbours(string case_name, string subject, int[]? actual, 
     }
 }
 
-private void expect_failure(string case_name, string subject, int[]? actual) {
+private void expect_graph_neighbours(string case_name, string subject, Graph graph, int label, int[] expected) {
+    bool found;
+    int[] actual = graph.get_neighbors(label, out found);
+    assert(found);
+    expect_neighbours(case_name, subject, actual, expected);
+}
+
+private void expect_graph_neighbours_absent(string case_name, string subject, Graph graph, int label) {
     Test.message("%s should be the failure indicator in %s", subject, case_name);
-    assert(actual == null);
+    bool found;
+    graph.get_neighbors(label, out found);
+    assert(!found);
 }
 
 private void expect_tree_present(string case_name, BinaryTree tree, int[] values) {
@@ -178,7 +186,7 @@ private void test_graph_create_empty() {
     expect_bool(case_name, "Graph.is_empty", graph.is_empty, true);
     expect_graph_counts(case_name, graph, 0, 0);
     expect_bool(case_name, "Graph.has_edge(10,30)", graph.has_edge(10, 30), false);
-    expect_failure(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10));
+    expect_graph_neighbours_absent(case_name, "Graph.get_neighbors(10)", graph, 10);
 }
 
 private void test_graph_isolated_vertex() {
@@ -187,7 +195,7 @@ private void test_graph_isolated_vertex() {
     expect_bool(case_name, "Graph.add_vertex(10)", graph.add_vertex(10), true);
     expect_bool(case_name, "Graph.is_empty", graph.is_empty, false);
     expect_graph_counts(case_name, graph, 1, 0);
-    expect_neighbours(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10), {});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10)", graph, 10, {});
 }
 
 private void test_graph_directed_edge() {
@@ -207,7 +215,7 @@ private void test_graph_duplicate_vertex() {
     expect_bool(case_name, "Graph.add_edge(10,30)", graph.add_edge(10, 30), true);
     expect_bool(case_name, "Graph.add_vertex(10) again", graph.add_vertex(10), true);
     expect_graph_counts(case_name, graph, 2, 1);
-    expect_neighbours(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10), {30});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10)", graph, 10, {30});
 }
 
 private void test_graph_duplicate_edge() {
@@ -217,7 +225,7 @@ private void test_graph_duplicate_edge() {
     expect_bool(case_name, "Graph.add_edge(10,30) first", graph.add_edge(10, 30), true);
     expect_bool(case_name, "Graph.add_edge(10,30) second", graph.add_edge(10, 30), true);
     expect_graph_counts(case_name, graph, 2, 1);
-    expect_neighbours(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10), {30});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10)", graph, 10, {30});
 }
 
 private void test_graph_missing_endpoint() {
@@ -230,14 +238,14 @@ private void test_graph_missing_endpoint() {
     expect_bool(case_name, "Graph.add_edge(98,99)", graph.add_edge(98, 99), false);
     expect_bool(case_name, "Graph.add_edge(99,99)", graph.add_edge(99, 99), false);
     expect_graph_counts(case_name, graph, 2, 1);
-    expect_neighbours(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10), {30});
-    expect_neighbours(case_name, "Graph.get_neighbors(30)", graph.get_neighbors(30), {});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10)", graph, 10, {30});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(30)", graph, 30, {});
     expect_bool(case_name, "Graph.has_edge(10,99)", graph.has_edge(10, 99), false);
     expect_bool(case_name, "Graph.has_edge(99,10)", graph.has_edge(99, 10), false);
     expect_bool(case_name, "Graph.has_edge(98,99)", graph.has_edge(98, 99), false);
     expect_bool(case_name, "Graph.has_edge(99,99)", graph.has_edge(99, 99), false);
-    expect_failure(case_name, "Graph.get_neighbors(98)", graph.get_neighbors(98));
-    expect_failure(case_name, "Graph.get_neighbors(99)", graph.get_neighbors(99));
+    expect_graph_neighbours_absent(case_name, "Graph.get_neighbors(98)", graph, 98);
+    expect_graph_neighbours_absent(case_name, "Graph.get_neighbors(99)", graph, 99);
 }
 
 private void test_graph_sorted_neighbours() {
@@ -248,10 +256,10 @@ private void test_graph_sorted_neighbours() {
     expect_bool(case_name, "Graph.add_edge(10,30)", graph.add_edge(10, 30), true);
     expect_bool(case_name, "Graph.add_edge(10,50)", graph.add_edge(10, 50), true);
     expect_bool(case_name, "Graph.add_edge(30,50)", graph.add_edge(30, 50), true);
-    expect_neighbours(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10), {30, 50, 70});
-    expect_neighbours(case_name, "Graph.get_neighbors(30)", graph.get_neighbors(30), {50});
-    expect_neighbours(case_name, "Graph.get_neighbors(50)", graph.get_neighbors(50), {});
-    expect_neighbours(case_name, "Graph.get_neighbors(70)", graph.get_neighbors(70), {});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10)", graph, 10, {30, 50, 70});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(30)", graph, 30, {50});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(50)", graph, 50, {});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(70)", graph, 70, {});
     expect_graph_counts(case_name, graph, 4, 4);
 }
 
@@ -268,8 +276,8 @@ private void test_graph_missing_vertex_neighbours() {
     string case_name = "neighbours-of-missing-vertex";
     Graph graph = new Graph();
     expect_bool(case_name, "Graph.add_vertex(10)", graph.add_vertex(10), true);
-    expect_failure(case_name, "Graph.get_neighbors(99)", graph.get_neighbors(99));
-    expect_neighbours(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10), {});
+    expect_graph_neighbours_absent(case_name, "Graph.get_neighbors(99)", graph, 99);
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10)", graph, 10, {});
     expect_graph_counts(case_name, graph, 1, 0);
 }
 
@@ -280,7 +288,7 @@ private void test_graph_self_loop() {
     expect_bool(case_name, "Graph.add_edge(10,10) first", graph.add_edge(10, 10), true);
     expect_bool(case_name, "Graph.add_edge(10,10) second", graph.add_edge(10, 10), true);
     expect_bool(case_name, "Graph.has_edge(10,10)", graph.has_edge(10, 10), true);
-    expect_neighbours(case_name, "Graph.get_neighbors(10)", graph.get_neighbors(10), {10});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10)", graph, 10, {10});
     expect_graph_counts(case_name, graph, 1, 1);
 }
 
@@ -289,16 +297,19 @@ private void test_graph_neighbour_isolation() {
     Graph graph = new Graph();
     expect_graph_vertices(case_name, graph, {10, 30, 50});
     expect_bool(case_name, "Graph.add_edge(10,30)", graph.add_edge(10, 30), true);
-    int[]? saved = graph.get_neighbors(10);
-    int[]? copy = graph.get_neighbors(10);
-    assert(copy != null);
+    bool saved_found;
+    int[] saved = graph.get_neighbors(10, out saved_found);
+    assert(saved_found);
+    bool copy_found;
+    int[] copy = graph.get_neighbors(10, out copy_found);
+    assert(copy_found);
     copy[0] = 99;
     expect_neighbours(case_name, "saved neighbours after changing copy", saved, {30});
-    expect_neighbours(case_name, "Graph.get_neighbors(10) after changing copy",
-                      graph.get_neighbors(10), {30});
+    expect_graph_neighbours(case_name, "Graph.get_neighbors(10) after changing copy",
+                            graph, 10, {30});
     expect_bool(case_name, "Graph.add_edge(10,50)", graph.add_edge(10, 50), true);
     expect_neighbours(case_name, "saved neighbours after later edge", saved, {30});
-    expect_neighbours(case_name, "fresh Graph.get_neighbors(10)", graph.get_neighbors(10), {30, 50});
+    expect_graph_neighbours(case_name, "fresh Graph.get_neighbors(10)", graph, 10, {30, 50});
     expect_graph_counts(case_name, graph, 3, 2);
 }
 
