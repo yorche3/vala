@@ -1,0 +1,8 @@
+build/
+*.o
+*.a
+*.so
+*.c
+*.h
+*.vapi
+data_structures_advanced_test

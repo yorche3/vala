@@ -12,6 +12,7 @@ Los módulos de esta fase trabajan sobre **arrays mutables** (`int[]`), que se o
 |--------|---------------|---------|:-----:|:------:|
 | [`naive_sort/`](naive_sort/) | [05_Naive_Sort](https://yorche3.github.io/programming_languages/core/algorithms/05_Naive_Sort/) | `valac` + GLib.Test | 21 | ✅ |
 | [`data_structures_basics/`](data_structures_basics/) | [06_Data_Structures_Basics](https://yorche3.github.io/programming_languages/core/algorithms/06_Data_Structures_Basics/) | `valac` + GLib.Test | 4 | ✅ |
+| [`data_structures_advanced/`](data_structures_advanced/) | [07_Data_Structures_Advanced](https://yorche3.github.io/programming_languages/core/algorithms/07_Data_Structures_Advanced/) | `valac` + GLib.Test | 23 | ✅ |
 
 ---
 
@@ -26,15 +27,25 @@ algorithms/
 │   ├── test/
 │   │   └── naive_sort_tests.vala    # 3 tests × 7 casos
 │   └── README.md
-└── data_structures_basics/          # 06_Data_Structures_Basics
+├── data_structures_basics/          # 06_Data_Structures_Basics
+│   ├── .gitignore                   # binario de pruebas y artefactos generados
+│   ├── meson.build                  # configuración opcional de Meson
+│   ├── src/
+│   │   ├── meson.build
+│   │   └── data_structures_basics.vala # namespace DataStructuresBasics: Node, LinkedList, Stack, Queue
+│   ├── test/
+│   │   ├── meson.build
+│   │   └── data_structures_basics_test.vala # 4 suites con runners para cada estructura
+│   └── README.md
+└── data_structures_advanced/        # 07_Data_Structures_Advanced
     ├── .gitignore                   # binario de pruebas y artefactos generados
     ├── meson.build                  # configuración opcional de Meson
     ├── src/
     │   ├── meson.build
-    │   └── data_structures_basics.vala # namespace DataStructuresBasics: Node, LinkedList, Stack, Queue
+    │   └── data_structures_advanced.vala # namespace DataStructuresAdvanced: Node, TreeNode, BinaryTree, GraphNode, Graph
     ├── test/
     │   ├── meson.build
-    │   └── data_structures_basics_test.vala # 4 suites con runners para cada estructura
+    │   └── data_structures_advanced_test.vala # 23 tests con runners para TreeNode, BinaryTree y Graph
     └── README.md
 ```
 
@@ -74,6 +85,11 @@ valac src/naive_sort.vala test/naive_sort_tests.vala --pkg glib-2.0 -o /tmp/vala
 cd ../data_structures_basics
 valac --pkg glib-2.0 --pkg gobject-2.0 src/data_structures_basics.vala test/data_structures_basics_test.vala -o /tmp/vala-data-structures-basics-tests -X -w
 /tmp/vala-data-structures-basics-tests
+
+# Data Structures Advanced Tests
+cd ../data_structures_advanced
+valac --pkg glib-2.0 --pkg gobject-2.0 src/data_structures_advanced.vala test/data_structures_advanced_test.vala -o /tmp/vala-data-structures-advanced-tests -X -w
+/tmp/vala-data-structures-advanced-tests
 ```
 
 ---
