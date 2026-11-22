@@ -9,7 +9,7 @@ Proyectos en **Vala**, con programas independientes compilados mediante `valac` 
 | Módulo | Descripción |
 | ------ | ----------- |
 | [`core/foundations/`](core/foundations/) | **Fase 0 — Fundamentos**: `helloworld`, `hellouser`, `unit_test/calculator`, `numbers` |
-| [`core/algorithms/`](core/algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort`, `data_structures_basics` |
+| [`core/algorithms/`](core/algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort`, `data_structures_basics`, `data_structures_advanced` |
 
 ---
 
@@ -51,6 +51,11 @@ valac src/naive_sort.vala test/naive_sort_tests.vala --pkg glib-2.0 -o /tmp/vala
 cd ../data_structures_basics
 valac --pkg glib-2.0 --pkg gobject-2.0 src/data_structures_basics.vala test/data_structures_basics_test.vala -o /tmp/vala-data-structures-basics-tests -X -w
 /tmp/vala-data-structures-basics-tests
+
+# Data Structures Advanced tests
+cd ../data_structures_advanced
+valac --pkg glib-2.0 --pkg gobject-2.0 src/data_structures_advanced.vala test/data_structures_advanced_test.vala -o /tmp/vala-data-structures-advanced-tests -X -w
+/tmp/vala-data-structures-advanced-tests
 ```
 
 ---
